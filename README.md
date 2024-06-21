@@ -9,6 +9,6 @@ Make sure to run the backend app first then the Windows app.
 
 Clone the repo/folder to any desired folder.Then open any command line editor of choice.
 
-Ideally one should run "npm build --tsc" but I have provided the build files here itself.
+Step 1 : run "npm build --tsc" .
 
-Simply execute "npm run start" to start the backend server.
+Step 2 : Simply execute "npm run start" to start the backend server.
