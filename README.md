@@ -8,7 +8,8 @@ Make sure to run the backend app first then the Windows app.
 # Backend (Nodejs+Typescript)
 
 Clone the repo/folder to any desired folder.Then open any command line editor of choice.
+Make sure to have installed typescript to start with
 
-Step 1 : run "npm build --tsc" .
+Step 1 : run "npm run build" .This builds the .js files
 
 Step 2 : Simply execute "npm run start" to start the backend server.
