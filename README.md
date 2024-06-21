@@ -13,3 +13,13 @@ Make sure to have installed typescript to start with
 Step 1 : run "npm run build" .This builds the .js files
 
 Step 2 : Simply execute "npm run start" to start the backend server.
+
+# API ENDPOINTS
+1 . **/ping**
+  -Returns true on hitting the endpoint
+  
+2 . **/read**
+  -Takes in an integer index as arguments,gets the submission information.Returns error if not found or index out of bounds
+  
+3 . **/submit**
+  -Takes informaton about Name,Email,Phone,Website link and Stopwatch time as input.Returns success code on successful entry creation.
