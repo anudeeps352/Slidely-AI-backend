@@ -1,0 +1,85 @@
+Imports System.Net.Http
+Imports Newtonsoft.Json
+Imports System.Text
+Imports System.Diagnostics
+Imports System.Runtime.InteropServices.JavaScript.JSType
+
+Public Class CreateSubmissionForm
+    Inherits Form
+    Private stopwatch As Stopwatch
+    Private timer As Timer
+
+    Public Sub New()
+        InitializeComponent()
+        InitializeCustomComponents()
+    End Sub
+
+    Private Sub InitializeCustomComponents()
+        stopwatch = New Stopwatch()
+        timer = New Timer() With {
+            .Interval = 1000
+        }
+        AddHandler btnToggleStopwatch.Click, AddressOf btnToggleStopwatch_Click
+        AddHandler btnSubmit.Click, AddressOf btnSubmit_Click
+        AddHandler timer.Tick, AddressOf Timer_Tick
+    End Sub
+
+    Private Sub btnToggleStopwatch_Click(sender As Object, e As EventArgs) Handles btnToggleStopwatch.Click
+        If stopwatch.IsRunning Then
+            stopwatch.Stop()
+            timer.Stop()
+            btnToggleStopwatch.Text = "Start Stopwatch"
+        Else
+            stopwatch.Start()
+            timer.Start()
+            btnToggleStopwatch.Text = "Stop Stopwatch"
+
+        End If
+    End Sub
+
+
+    Private Sub Timer_Tick(sender As Object, e As EventArgs)
+        ' Update the label with current elapsed time
+
+        textToggleStopwatch.Text = String.Format("{0:D2}:{1:D2}", stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds)
+    End Sub
+
+    Private Async Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
+
+        stopwatch.Stop()
+        timer.Stop()
+        Dim newSubmission As New List(Of KeyValuePair(Of String, String)) From {
+        New KeyValuePair(Of String, String)("name", txtName.Text),
+        New KeyValuePair(Of String, String)("email", txtEmail.Text),
+        New KeyValuePair(Of String, String)("phone", txtPhone.Text),
+        New KeyValuePair(Of String, String)("website", txtWebsite.Text),
+        New KeyValuePair(Of String, String)("stopwatchTime", FormatElapsedTime(stopwatch.Elapsed))
+    }
+        Try
+            Using client As New HttpClient()
+                Dim content = New FormUrlEncodedContent(newSubmission)
+                Dim response = Await client.PostAsync("http://localhost:3000/submit", content)
+
+                response.EnsureSuccessStatusCode() ' Throw on error
+
+                MessageBox.Show("Submission created successfully.", "Success")
+                Close()
+            End Using
+        Catch ex As Exception
+            MessageBox.Show($"Error creating submission: {ex.Message}", "Error")
+        End Try
+    End Sub
+
+    Private Function FormatElapsedTime(elapsed As TimeSpan) As String
+        ' Format elapsed time as minutes and seconds string
+        Return $"{elapsed.TotalMinutes.ToString("0")} minutes {elapsed.Seconds.ToString("00")} seconds"
+    End Function
+
+    Private Sub CreateSubmissionForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles textToggleStopwatch.TextChanged
+
+    End Sub
+End Class
