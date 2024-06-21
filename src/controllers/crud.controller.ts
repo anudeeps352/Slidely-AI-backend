@@ -18,9 +18,17 @@ async function addtodb(req: Request, res: Response) {
 }
 
 async function deleteitemfromdb(req: Request, res: Response) {
-  const data = req.body.email;
-  await deletefromdb(data);
-  res.status(201).send('Deleted successfully');
+  const email: string = req.query.email as string;
+  try {
+    let success: boolean = await deletefromdb(email);
+    if (success) {
+      res.status(200).send('Deleted successfully');
+    } else {
+      res.status(400).json('Unable to delete,no such email might exist');
+    }
+  } catch (error) {
+    return res.status(400).json({ error: 'Entry not found' });
+  }
 }
 async function submissonfromdb(req: Request, res: Response) {
   const alldata: newdata[] = await loadfromdb();

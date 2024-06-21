@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.get('/read', submissonfromdb);
 router.post('/submit', addtodb);
-router.post('/delete', deleteitemfromdb);
+router.get('/delete', deleteitemfromdb);
 
 export default router;
