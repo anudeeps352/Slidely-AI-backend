@@ -21,11 +21,13 @@ function loadfromdb() {
         let json = [];
         try {
             const data = yield fs_1.default.promises.readFile(dbpath, 'utf-8');
+            if (data.trim() === '') {
+                return [];
+            }
             json = JSON.parse(data);
         }
         catch (error) {
             console.log(error);
-            throw error;
         }
         console.log(json);
         return json;
