@@ -23,3 +23,6 @@ Step 2 : Simply execute "npm run start" to start the backend server.
   
 3 . **/submit**
   -Takes informaton about Name,Email,Phone,Website link and Stopwatch time as input.Returns success code on successful entry creation.
+  
+4 . **/delete**
+  -Takes informaton about Email and deletes all possible entries with that mail id.Returns error if id not found
