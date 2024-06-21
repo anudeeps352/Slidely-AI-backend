@@ -7,10 +7,12 @@ export async function loadfromdb(): Promise<newdata[]> {
   let json: newdata[] = [];
   try {
     const data = await fs.promises.readFile(dbpath, 'utf-8');
+    if (data.trim() === '') {
+      return [];
+    }
     json = JSON.parse(data);
   } catch (error) {
     console.log(error);
-    throw error;
   }
   console.log(json);
   return json;
