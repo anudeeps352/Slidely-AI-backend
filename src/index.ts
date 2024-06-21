@@ -13,11 +13,4 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pingroute);
 app.use(crudroute);
 
-// app.get('/read', async (req, res) => {
-//   try {
-//     //fetch info from db
-//   } catch (error) {
-//     res.json('Error accessing Information');
-//   }
-// });
 app.listen(3000);

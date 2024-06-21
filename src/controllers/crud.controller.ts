@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { writetodb } from '../service/writetodb';
 import { deletefromdb } from '../service/deletefromdb';
 import { readfromdb } from '../service/readfromdb';
+import { newdata } from '../global/types';
+import { loadfromdb } from '../service/loadfromdb';
+
 async function addtodb(req: Request, res: Response) {
   const data = {
     name: req.body.name,
@@ -20,9 +23,13 @@ async function deleteitemfromdb(req: Request, res: Response) {
   res.status(201).send('Deleted successfully');
 }
 async function submissonfromdb(req: Request, res: Response) {
+  const alldata: newdata[] = await loadfromdb();
+  const maxlength: number = alldata.length;
   const index = parseInt(req.query.index as string);
-  if (isNaN(index) || index < 0) {
+  if (isNaN(index)) {
     return res.status(400).json({ error: 'Invalid index' });
+  } else if (index >= maxlength) {
+    return res.status(400).json({ error: 'Reached end of submissions' });
   }
   try {
     const submission: string = await readfromdb(index);
